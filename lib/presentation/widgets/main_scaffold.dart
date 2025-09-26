@@ -30,9 +30,16 @@ class MainScaffold extends StatelessWidget {
   }
 
   bool _shouldShowAppBar() {
-    // Show app bar for non-home pages
+    // Show app bar for non-home pages, but exclude product detail pages
     final homeRoutes = ['/home', '/vendor', '/admin'];
-    return !homeRoutes.contains(currentPath);
+    final noAppBarRoutes = homeRoutes;
+    
+    // Don't show app bar for product detail pages
+    if (currentPath.startsWith('/products/')) {
+      return false;
+    }
+    
+    return !noAppBarRoutes.contains(currentPath);
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context, userRole) {
@@ -53,15 +60,33 @@ class MainScaffold extends StatelessWidget {
           }
         },
       ),
-      actions: [
-        // Add any additional actions if needed
-        IconButton(
-          icon: const Icon(Icons.more_vert),
-          onPressed: () {
-            // Show options menu
-          },
-        ),
-      ],
+      actions: currentPath == '/products' 
+          ? [
+              Consumer<CartProvider>(
+                builder: (context, cartProvider, child) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Badge(
+                      isLabelVisible: cartProvider.totalQuantity > 0,
+                      label: Text(cartProvider.totalQuantity.toString()),
+                      child: IconButton(
+                        icon: const Icon(Icons.shopping_cart_outlined),
+                        onPressed: () => context.go(AppRoutes.cart),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ]
+          : [
+              // Add any additional actions if needed
+              IconButton(
+                icon: const Icon(Icons.more_vert),
+                onPressed: () {
+                  // Show options menu
+                },
+              ),
+            ],
     );
   }
 

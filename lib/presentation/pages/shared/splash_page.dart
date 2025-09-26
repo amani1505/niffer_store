@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:niffer_store/core/constants/app_strings.dart';
 import 'package:niffer_store/presentation/providers/auth_provider.dart';
+import 'package:niffer_store/core/services/storage_service.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -50,10 +51,24 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     _animationController.forward();
   }
 
+  Future<bool> _shouldShowOnboarding() async {
+    const String onboardingKey = 'has_seen_onboarding';
+    return !(StorageService.getBool(onboardingKey) ?? false);
+  }
+
   void _checkAuthAndNavigate() async {
     await Future.delayed(const Duration(seconds: 3));
     
     if (mounted) {
+      // Check if user has seen onboarding
+      final shouldShow = await _shouldShowOnboarding();
+      
+      if (shouldShow) {
+        // User hasn't seen onboarding, show it
+        context.go('/onboarding');
+        return;
+      }
+      
       final authProvider = context.read<AuthProvider>();
       
       if (authProvider.isAuthenticated) {
@@ -71,7 +86,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             break;
         }
       } else {
-        context.go(AppRoutes.login);
+        // User has seen onboarding but not logged in, go to home (browsing mode)
+        context.go(AppRoutes.home);
       }
     }
   }

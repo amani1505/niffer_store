@@ -17,6 +17,7 @@ import 'package:niffer_store/presentation/pages/customer/product_detail_page.dar
 import 'package:niffer_store/presentation/pages/customer/product_list_page.dart';
 import 'package:niffer_store/presentation/pages/customer/profile_page.dart';
 import 'package:niffer_store/presentation/pages/shared/splash_page.dart';
+import 'package:niffer_store/presentation/pages/shared/onboarding_page.dart';
 import 'package:niffer_store/presentation/pages/vendor/vendor_analytics_page.dart';
 import 'package:niffer_store/presentation/pages/vendor/vendor_dashboard.dart';
 import 'package:niffer_store/presentation/pages/vendor/vendor_orders_page.dart';
@@ -40,6 +41,7 @@ class AppRouter {
         // Public routes that don't require authentication
         final publicRoutes = [
           AppRoutes.splash,
+          AppRoutes.onboarding,
           AppRoutes.login,
           AppRoutes.register,
           AppRoutes.home,
@@ -77,6 +79,10 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => const SplashPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding,
+        builder: (context, state) => const OnboardingPage(),
       ),
       GoRoute(
         path: AppRoutes.login,

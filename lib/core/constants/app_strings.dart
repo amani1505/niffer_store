@@ -108,4 +108,7 @@ class AppRoutes {
   static const String storesManagement = '/admin/stores';
   static const String globalAnalytics = '/admin/analytics';
   static const String adminSettings = '/admin/settings';
+  
+  // Onboarding
+  static const String onboarding = '/onboarding';
 }

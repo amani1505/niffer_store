@@ -4,6 +4,7 @@ import 'package:niffer_store/core/constants/app_colors.dart';
 import 'package:niffer_store/core/widgets/custom_button.dart';
 import 'package:niffer_store/core/widgets/responsive_layout.dart';
 import 'package:niffer_store/core/widgets/image_skeleton.dart';
+import 'package:niffer_store/core/widgets/login_dialog.dart';
 import 'package:niffer_store/presentation/providers/auth_provider.dart';
 import 'package:niffer_store/presentation/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
@@ -363,27 +364,11 @@ class CartPage extends StatelessWidget {
                               );
                             }
                           : () {
-                              showDialog(
+                              LoginRequiredBottomSheet.show(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Login Required'),
-                                  content: const Text(
-                                    'Please login to proceed with checkout.',
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        // Navigate to login
-                                      },
-                                      child: const Text('Login'),
-                                    ),
-                                  ],
-                                ),
+                                title: 'Login to Checkout',
+                                message: 'Please login to proceed with your order and complete the checkout process.',
+                                actionText: 'You\'ll be able to track your orders and enjoy a personalized shopping experience.',
                               );
                             },
                       icon: Icons.payment,
